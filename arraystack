@@ -1,0 +1,58 @@
+class  Library:
+    def __init__(self):
+        self.stack=[]
+    def is_empty(self):
+        return len(self.stack)==0
+    def push(self,item):
+        self.stack.append(item)
+        print(f"{item} Added to Library")
+    def pop(self):
+        if self.is_empty():
+            return "Library is empty"
+        return self.stack.pop()
+    def peek(self):
+        if self.is_empty():
+            return "Library is Empty"
+        return self.stack[-1]
+    def size(self):
+        return len(self.stack)
+    def display(self):
+        print("Stack Elements:", self.stack)
+book=Library()
+while True:
+    print("1.To Push a Book")
+    print("2.To Delete a Book")
+    print("3.To Peek of Library")
+    print("4.To Size of Library")
+    print("5.To Check Empty")
+    print("6.Display the Library")
+    print("7.Exit")
+    c=input("Enter the choice(1-7): ")
+    if(c=='1'):
+        bk=input("Enter a book")
+        p=book.push(bk)
+        di=book.display()
+        print(di)
+    elif (c=='2'):
+        po=book.pop()
+        print("Enter a book to delete",po)
+        di=book.display()
+        print(di)
+       
+    elif (c=='3'):
+        pk=book.peek()
+        print("The peek of Library is ",pk)
+    elif (c=='4'):
+        s=book.size()
+        print("The Size of Library is ",s)
+    elif (c=='5'):
+        em=book.is_empty()
+        print("The list is empty or not",em)
+    elif (c=='6'):
+        di=book.display()
+        print(di)
+    elif(c=='7'):
+        print("Exit")
+        break
+    else:
+        print("Invalid input")
