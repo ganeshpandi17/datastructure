@@ -1,0 +1,26 @@
+OPERATORS=set(['+','-','*','/','(',')','^'])
+PRIORITY={'+':1,'-':1,'*':2,'/':2,'^':3}
+def intopost(eqn):
+    stack=[]
+    output=''
+    for ch in eqn:
+        if ch not in OPERATORS:
+            output+=ch
+        elif ch=='(':
+            stack.append('(')
+        elif ch==')':
+            while stack and stack[-1]!='(':
+                output+=stack.pop()
+            stack.pop()
+        else:
+            while stack and stack[-1]!='(' and PRIORITY[ch]<=PRIORITY[stack[-1]]:
+                output+=stack.pop()
+            stack.append(ch)
+
+    while stack:
+        output+=stack.pop()
+    return output
+
+eqn=input("Enter infix expression:")
+print("infix expression:",eqn)
+print("postfix expression:",intopost(eqn))
