@@ -1,0 +1,77 @@
+# Queue Implementation using Array
+
+SIZE = int(input("Enter the Size of Parking"))
+queue = [0] * SIZE
+front = -1
+rear = -1
+
+
+def enqueue(car):
+    global front, rear
+
+    if rear == SIZE - 1:
+        print("Parking is FULL!")
+    else:
+        if front == -1:
+            front = 0
+        rear += 1
+        queue[rear] = car
+        print(car, "is Parked")
+
+
+def dequeue():
+    global front, rear
+
+    if front == -1:
+        print("Parking is Empty!")
+    else:
+        print(queue[front], "exited the Parking")
+        front += 1
+
+        if front > rear:
+            front = -1
+            rear = -1
+def size():
+    if front == -1:
+        return 0
+    return rear - front + 1
+
+def display():
+    if front == -1:
+        print("Parking is Empty!")
+    else:
+        print("Car Parked are ")
+        for i in range(front, rear + 1):
+            print(queue[i], end=" ")
+        print()
+
+
+while True:
+    print("\nQUEUE OPERATIONS")
+    print("1. Entry of Car")
+    print("2. Exit of Car")
+    print("3. Display the Cars")
+    print("4. Total no car Parked")
+    print("5. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        value = int(input("Enter the No plate for entry : "))
+        enqueue(value)
+
+    elif choice == 2:
+        dequeue()
+
+    elif choice == 3:
+        display()
+
+    elif choice == 4:
+        print("Parked Car =", size())
+
+    elif choice == 5:
+         print("Exit.")
+         break
+
+    else:
+        print("Invalid Input")
