@@ -1,0 +1,19 @@
+from collections import deque
+a=input("Enter the string:")
+que=""
+for ch in a:
+    if ch.isalnum():
+        que+=ch.lower()
+stack=[]
+queue=deque ()
+for ch in que:
+    stack.append(ch)
+    queue.append(ch)
+b=True
+while stack and queue:
+    if stack.pop() != queue.popleft():
+        b=False
+if b:
+    print(a,"is a palindrome")
+else:
+    print(a," is Not a palindrome")
