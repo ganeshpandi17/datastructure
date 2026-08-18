@@ -1,0 +1,39 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+class Book:
+    def inorder(self, root):
+        if root is not None:
+            self.inorder(root.left)
+            print(root.data, end=" ")
+            self.inorder(root.right)
+
+    def preorder(self, root):
+        if root is not None:
+            print(root.data, end=" ")
+            self.preorder(root.left)
+            self.preorder(root.right)
+
+    def postorder(self, root):
+        if root is not None:
+            self.postorder(root.left)
+            self.postorder(root.right)
+            print(root.data, end=" ")
+root = Node("shakespeare")
+root.left = Node("willssmith")
+root.right = Node("WilliamJames")
+
+book = Book()
+
+print("\nInorder :")
+book.inorder(root)
+
+print("\nPreorder :")
+book.preorder(root)
+
+print("\nPostorder :")
+book.postorder(root)
