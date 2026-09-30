@@ -1,0 +1,59 @@
+class SocialNetwork:
+    def __init__(self, users):
+        self.users = sorted(list(set(users)))
+        self.num_users = len(self.users)
+        self.user_to_idx = {user: i for i, user in enumerate(self.users)}
+        self.idx_to_user = {i: user for i, user in enumerate(self.users)}
+        self.adj_matrix = [[0] * self.num_users for _ in range(self.num_users)]
+        self.adj_list = {user: [] for user in self.users}
+
+    def add_connection(self, u1, u2):
+        if u1 not in self.user_to_idx or u2 not in self.user_to_idx:
+            print(f"Error: User '{u1}' or '{u2}' not found.")
+            return False
+        i1, i2 = self.user_to_idx[u1], self.user_to_idx[u2]
+        self.adj_matrix[i1][i2] = self.adj_matrix[i2][i1] = 1
+        if u2 not in self.adj_list[u1]: self.adj_list[u1].append(u2)
+        if u1 not in self.adj_list[u2]: self.adj_list[u2].append(u1)
+        return True
+
+    def display(self):
+        print("\nADJACENCY MATRIX")
+        print(" " * 10 + " ".join(f"{u[:8]:>8}" for u in self.users))
+        for i, row in enumerate(self.adj_matrix):
+            print(f"{self.idx_to_user[i][:8]:>8} | " + " ".join(f"{v:>8}" for v in row))
+        print("\nADJACENCY LIST")
+        for u, f in self.adj_list.items():
+            print(f"{u} -> {f if f else 'None'}")
+
+    def are_connected(self, u1, u2):
+        if u1 not in self.user_to_idx or u2 not in self.user_to_idx:
+            return None
+        return self.adj_matrix[self.user_to_idx[u1]][self.user_to_idx[u2]] == 1
+
+def main():
+    raw_users = input("Enter all users (space-separated): ").strip().split()
+    if not raw_users: return
+    net = SocialNetwork(raw_users)
+
+    print("Enter connections as 'User1 User2' (type 'done' to stop):")
+    while True:
+        conn = input("> ").strip()
+        if conn.lower() == 'done': break
+        parts = conn.split()
+        if len(parts) == 2: net.add_connection(parts[0], parts[1])
+
+    net.display()
+
+    print("\nADMIN PORTAL (type 'exit' to quit):")
+    while True:
+        query = input("Check connection (User1 User2): ").strip()
+        if query.lower() == 'exit': break
+        parts = query.split()
+        if len(parts) != 2: continue
+        res = net.are_connected(parts[0], parts[1])
+        if res is None: print("Invalid users.")
+        else: print("Connected: YES" if res else "Connected: NO")
+
+if __name__ == "__main__":
+    main()
