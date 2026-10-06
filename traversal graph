@@ -1,0 +1,122 @@
+from collections import deque
+
+graph={}
+
+def add_user():
+    user=input("Enter user name: ")
+    if user not in graph:
+        graph[user]=[]
+        print("User added")
+    else:
+        print("User already exists")
+
+def add_friendship():
+    user1=input("Enter first user: ")
+    user2=input("Enter second user: ")
+
+    if user1 not in graph:
+        graph[user1]=[]
+
+    if user2 not in graph:
+        graph[user2]=[]
+
+    if user2 not in graph[user1]:
+        graph[user1].append(user2)
+
+    if user1 not in graph[user2]:
+        graph[user2].append(user1)
+
+    print("Friendship added")
+
+def display_graph():
+    if not graph:
+        print("Graph is empty")
+    else:
+        for user in graph:
+            print(user,"->",graph[user])
+
+def display_friends():
+    user=input("Enter user name: ")
+
+    if user in graph:
+        print("Friends of",user,":",graph[user])
+    else:
+        print("User not found")
+
+def bfs(start):
+    visited=[]
+    queue=deque([start])
+
+    while queue:
+        user=queue.popleft()
+
+        if user not in visited:
+            visited.append(user)
+
+            for friend in graph[user]:
+                if friend not in visited:
+                    queue.append(friend)
+
+    return visited
+
+def dfs(start):
+    visited=[]
+    stack=[start]
+
+    while stack:
+        user=stack.pop()
+
+        if user not in visited:
+            visited.append(user)
+
+            for friend in reversed(graph[user]):
+                if friend not in visited:
+                    stack.append(friend)
+
+    return visited
+
+while True:
+    print("\n1. Add User")
+    print("2. Add Friendship")
+    print("3. Display Graph")
+    print("4. Display Friends")
+    print("5. BFS Traversal")
+    print("6. DFS Traversal")
+    print("7. Exit")
+
+    choice=input("Enter your choice: ")
+
+    if choice=="1":
+        add_user()
+
+    elif choice=="2":
+        add_friendship()
+
+    elif choice=="3":
+        display_graph()
+
+    elif choice=="4":
+        display_friends()
+
+    elif choice=="5":
+        user=input("Enter starting user: ")
+
+        if user in graph:
+            print("BFS Traversal:",bfs(user))
+        else:
+            print("User not found")
+
+    elif choice=="6":
+        user=input("Enter starting user: ")
+
+        if user in graph:
+            print("DFS Traversal:",dfs(user))
+        else:
+            print("User not found")
+
+    elif choice=="7":
+        print("Program ended")
+        break
+
+    else:
+        print("Invalid choice")
