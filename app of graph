@@ -1,0 +1,55 @@
+n = int(input("Enter number of cities: "))
+
+print("Enter the adjacency matrix:")
+graph = []
+
+for i in range(n):
+    row = list(map(int, input().split()))
+    graph.append(row)
+
+source = int(input("Enter source city (0 to {}): ".format(n - 1)))
+destination = int(input("Enter destination city (0 to {}): ".format(n - 1)))
+
+INF = 999999
+distance = [INF] * n
+visited = [False] * n
+parent = [-1] * n
+
+distance[source] = 0
+
+for _ in range(n):
+    min_distance = INF
+    u = -1
+
+    for i in range(n):
+        if not visited[i] and distance[i] < min_distance:
+            min_distance = distance[i]
+            u = i
+
+    if u == -1:
+        break
+
+    visited[u] = True
+
+    for v in range(n):
+        if graph[u][v] != 0 and not visited[v]:
+            new_distance = distance[u] + graph[u][v]
+
+            if new_distance < distance[v]:
+                distance[v] = new_distance
+                parent[v] = u
+
+if distance[destination] == INF:
+    print("No path exists between the given cities.")
+else:
+    path = []
+    current = destination
+
+    while current != -1:
+        path.append(current)
+        current = parent[current]
+
+    path.reverse()
+
+    print("Shortest Path:", " -> ".join(map(str, path)))
+    print("Shortest Distance:", distance[destination])
