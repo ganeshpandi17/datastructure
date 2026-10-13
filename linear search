@@ -1,0 +1,21 @@
+
+n = int(input("Enter number of students: "))
+a = []
+
+for i in range(n):
+    r = int(input("Enter roll number: "))
+    a.append(r)
+
+x = int(input("Enter roll number to search: "))
+
+found = False
+
+for i in range(n):
+    if a[i] == x:
+        found = True
+        break
+
+if found:
+    print("Roll number found")
+else:
+    print("Roll number not found")
